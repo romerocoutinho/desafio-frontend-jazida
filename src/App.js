@@ -1,24 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
 
 function App() {
+  // fetch("https://api.github.com/repos/reactjs/reactjs.org/issues")
+  //   .then(() => console.log("Deu certo"))
+  //   .catch(() => console.log("Deu erri"))
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <header>
+      <h1>Transparência cliente Jazida</h1>
+
+      <p>Acreditamos que transparência sempre é a melhor forma de lidar com qualquer problema e também acreditamos que os
+problemas podem ser resolvidos de várias formas</p>
+
+    </header>
   );
 }
 
