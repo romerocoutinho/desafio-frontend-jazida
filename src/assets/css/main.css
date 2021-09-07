@@ -1,0 +1,183 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  min-width: 380px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  align-items: center;
+  background-color: #f6f8fa;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+}
+
+main {
+  margin: 20px;
+}
+
+.info {
+  padding: 20px;
+  text-align: center;
+}
+
+.info p {
+  line-height: 22px;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.box-header {
+  align-items: center;
+  background-color: #f6f8fa;
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  justify-content: space-between;
+}
+
+.box-header .box-l {
+  padding-left: 10px;
+}
+
+.box-header .box-l a:nth-child(2) {
+  margin-left: 10px;
+}
+
+.box-header .box-r details {
+  margin-right: 10px;
+}
+
+.box-header a,
+.box-header details {
+  color: #57606a;
+}
+
+.box-header a:active,
+.box-header a:hover,
+.box-header details:hover {
+  color: #24292f;
+}
+
+.box-header details {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.box-header details > summary {
+  list-style: none;
+}
+.box-header summary::-webkit-details-marker {
+  display: none;
+}
+
+.box-header details[open] summary:after,
+.box-header summary::after {
+  content: " ▼";
+  font-size: 0.9rem;
+  vertical-align: baseline;
+}
+
+.box-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 10px;
+}
+
+.box-row:nth-child(odd) {
+  background-color: #f6f8fa;
+}
+
+.box-row .col-2 {
+  flex-grow: 1;
+  padding: 0 10px;
+}
+
+.box-row .col-2 span {
+  color: #57606a;
+  display: block;
+  font-size: 0.85rem;
+}
+
+.box-row .col-2 a {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.box-row .col-2 a:hover,
+.box-row .col-3 a:hover {
+  color: #0969da;
+}
+
+.box-row .col-3 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 50px;
+  text-align: right;
+}
+
+.box-row .col-3 a > svg {
+  display: inline-block;
+  margin-right: 3px;
+}
+
+.issue-icon {
+  display: inline-block;
+  fill: currentColor;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+}
+
+.open {
+  color: #1a7f37;
+}
+
+.b-top {
+  border-top: 1px solid #d0d7de;
+}
+
+.border-rd {
+  border: 1px solid #d0d7de;
+  border-radius: 5px;
+}
+
+.mb4 {
+  margin-bottom: 1rem;
+}
+
+.mr2 {
+  margin-right: 0.5rem;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+@media (max-width: 30rem) {
+  .box-header .box-r,
+  .box-row .col-3 {
+    display: none;
+  }
+}
