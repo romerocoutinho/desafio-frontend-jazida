@@ -369,7 +369,7 @@ main {
   text-align: center;
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 26rem) {
   .box-header .box-r,
   .box-row .col-3 {
     display: none;
