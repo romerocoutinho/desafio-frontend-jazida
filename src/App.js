@@ -1,3 +1,4 @@
+import ListIssues from "./components/ListIssues";
 import "./assets/css/main.css";
 
 function App() {
@@ -59,105 +60,7 @@ function App() {
             acompanhamento detalhado do andamento de nossas issues.
           </p>
         </div>
-        <div className="box border-rd">
-          <div className="box-header">
-            <div className="box-l">
-              <a href="#">
-                <svg
-                  className="issue-icon mr2 v-align-middle"
-                  viewBox="0 0 16 16"
-                  version="1.1"
-                  width="16"
-                  height="16"
-                  aria-hidden="true"
-                >
-                  <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                  <path
-                    fillRule="evenodd"
-                    d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-                  ></path>
-                </svg>
-                446 Abertos
-              </a>
-              <a href="#">
-                <svg
-                  aria-hidden="true"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  version="1.1"
-                  width="16"
-                  data-view-component="true"
-                  className="issue-icon mr2 v-align-middle"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
-                  ></path>
-                </svg>
-                620 Fechados
-              </a>
-            </div>
-            <div className="box-r">
-              <details>
-                <summary>
-                  Labels
-                  <span className="dropdown"></span>
-                </summary>
-              </details>
-              <details>
-                <summary>
-                  Sort
-                  <span className="dropdown"></span>
-                </summary>
-              </details>
-            </div>
-          </div>
-          <div className="box-row b-top">
-            <div className="col-1">
-              <svg
-                className="issue-icon open"
-                viewBox="0 0 16 16"
-                version="1.1"
-                width="16"
-                height="16"
-                aria-hidden="true"
-              >
-                <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                <path
-                  fillRule="evenodd"
-                  d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-                ></path>
-              </svg>
-            </div>
-            <div className="col-2">
-              <a href="#">
-                Is it not clear if the effect's clean up logic from a component
-                making using of context is ran BEFORE re-rendering any other
-                instance of the same component (on the same hierarchy level)
-              </a>
-              <span>#3879 opened 9 days ago by dragGH102</span>
-            </div>
-            <div className="col-3">
-              <a href="#">
-                <svg
-                  aria-hidden="true"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  version="1.1"
-                  width="16"
-                  data-view-component="true"
-                  className="issue-icon mr2 v-align-middle"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.75 2.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 01.75.75v2.19l2.72-2.72a.75.75 0 01.53-.22h4.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25H2.75zM1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0113.25 12H9.06l-2.573 2.573A1.457 1.457 0 014 13.543V12H2.75A1.75 1.75 0 011 10.25v-7.5z"
-                  ></path>
-                </svg>
-                <span>1</span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <ListIssues />
       </main>
     </>
   );
