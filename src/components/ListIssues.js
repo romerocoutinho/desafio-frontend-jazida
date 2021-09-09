@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import useIsMountedRef from "../hooks/useIsMountedRef";
 import axios from "axios";
 import moment from "moment";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
+import { filterActions } from "../store/index";
 
 const labelsOptions = [
   {
@@ -155,8 +157,7 @@ const getTotalPages = (headers) => {
 
   const links = headers.link.split(",");
   const pageRegex = /&page=(\d+)/gm;
-
-  let totalQuery = links
+  const totalQuery = links
     .filter((lk) => lk.indexOf('rel="last"') !== -1)
     .toString()
     .split(";")[0];
@@ -190,28 +191,16 @@ const CheckIcon = ({ checked }) => {
 };
 
 const ListIssues = () => {
+  const dispatch = useDispatch();
+  const isMountedRef = useIsMountedRef();
+  const filter = useSelector((state) => state.filter);
   const [issues, setIssues] = useState([]);
-  const [filters, setFilters] = useState({
-    state: "all",
-    labels: [],
-    sort: "created",
-    direction: "desc",
-  });
   const [paginate, setPaginate] = useState({
     page: 0,
     offset: 0,
   });
   const [pageCount, setPageCount] = useState();
   const perPage = 10;
-
-  const isMountedRef = useIsMountedRef();
-
-  // const getFetchFilter = useCallback(() => {
-  //   const data = {
-  //     state: "closed",
-  //   };
-  //   return data;
-  // }, [filters]);
 
   const resetPage = () => {
     setPaginate({
@@ -222,44 +211,39 @@ const ListIssues = () => {
 
   const handleLabelsChange = (event) => {
     event.persist();
-
-    if (!filters.labels.includes(event.target.value)) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        labels: [...filters.labels, event.target.value],
-      }));
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        labels: prevFilters.labels.filter(
-          (label) => label !== event.target.value
-        ),
-      }));
-    }
-
     resetPage();
+
+    if (!filter.labels.includes(event.target.value)) {
+      dispatch(
+        filterActions.filterByLabel([...filter.labels, event.target.value])
+      );
+    } else {
+      const oldLabels = [...filter.labels];
+      const newLabels = oldLabels.filter(
+        (label) => label !== event.target.value
+      );
+
+      dispatch(filterActions.filterByLabel(newLabels));
+    }
   };
 
   const handleStateChange = (event) => {
     event.persist();
     resetPage();
 
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      state: event.target.value,
-    }));
+    dispatch(filterActions.filterByState(event.target.value));
   };
 
   const handleSortChange = (event, direction) => {
     event.persist();
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      sort: event.target.value,
-      direction: direction,
-    }));
-
     resetPage();
+
+    dispatch(
+      filterActions.changeSort({
+        sort: event.target.value,
+        direction: direction,
+      })
+    );
   };
 
   const handlePageClick = (data) => {
@@ -274,7 +258,7 @@ const ListIssues = () => {
 
   const getIssues = useCallback(
     async (data) => {
-      const newFilters = { ...filters, labels: filters.labels.join() };
+      const newFilters = { ...filter, labels: filter.labels.join() };
       const queryString = new URLSearchParams(newFilters).toString();
       const url = `https://api.github.com/repos/reactjs/reactjs.org/issues?${queryString}&page=${
         paginate.page + 1
@@ -292,16 +276,12 @@ const ListIssues = () => {
         console.log(`Error: ${error}`);
       }
     },
-    [isMountedRef, filters, paginate]
+    [isMountedRef, filter, paginate]
   );
-
-  // useEffect(() => {
-  //   getIssues(getFetchFilter());
-  // }, [getIssues, getFetchFilter]);
 
   useEffect(() => {
     getIssues();
-  }, [getIssues, filters]);
+  }, [getIssues, filter]);
 
   if (!issues) {
     return <p className="no-result">Carregando...</p>;
@@ -367,9 +347,7 @@ const ListIssues = () => {
               <div className="label-dd-wrapper border-rd">
                 {labelsOptions.map((option, i) => (
                   <div key={option.label} className="label-row">
-                    <CheckIcon
-                      checked={filters.labels.includes(option.label)}
-                    />
+                    <CheckIcon checked={filter.labels.includes(option.label)} />
                     <span
                       className="colorLabel"
                       style={{ backgroundColor: option.color }}
@@ -393,8 +371,8 @@ const ListIssues = () => {
                   <div key={option.value + i} className="sort-row">
                     <CheckIcon
                       checked={
-                        filters.sort.includes(option.value) &&
-                        filters.direction.includes(option.direction)
+                        filter.sort.includes(option.value) &&
+                        filter.direction.includes(option.direction)
                       }
                     />
                     <CheckSort
@@ -404,8 +382,8 @@ const ListIssues = () => {
                       type="radio"
                       name="sort"
                       checked={
-                        filters.sort.includes(option.value) &&
-                        filters.direction.includes(option.direction)
+                        filter.sort.includes(option.value) &&
+                        filter.direction.includes(option.direction)
                       }
                     />
                     <label htmlFor={`radio${i}`}>{option.label}</label>
