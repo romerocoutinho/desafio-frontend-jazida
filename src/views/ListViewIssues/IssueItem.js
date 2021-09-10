@@ -1,5 +1,6 @@
 import moment from "moment";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Labels = styled.span`
   display: inline-block;
@@ -157,7 +158,7 @@ const CommentIcon = () => {
   );
 };
 
-const RowIssue = ({ issue }) => {
+const IssueItem = ({ issue }) => {
   return (
     <RowStyle data-testid="issue">
       <div className="col-1">
@@ -194,4 +195,8 @@ const RowIssue = ({ issue }) => {
   );
 };
 
-export default RowIssue;
+IssueItem.propTypes = {
+  issue: PropTypes.object.isRequired,
+};
+
+export default IssueItem;

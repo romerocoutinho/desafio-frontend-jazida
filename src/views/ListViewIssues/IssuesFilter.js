@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../store/index";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const FilterStyle = styled.div`
@@ -483,6 +484,21 @@ const IssuesFilter = ({
       </div>
     </FilterStyle>
   );
+};
+
+IssuesFilter.propTypes = {
+  openLabel: PropTypes.string,
+  closedLabel: PropTypes.string,
+  tagLabel: PropTypes.string,
+  orderingLabel: PropTypes.string,
+  resetPage: PropTypes.func.isRequired,
+};
+
+IssuesFilter.defaultProps = {
+  openLabel: "Abertos",
+  closedLabel: "Fechados",
+  tagLabel: "Labels",
+  orderingLabel: "Ordenação",
 };
 
 export default IssuesFilter;

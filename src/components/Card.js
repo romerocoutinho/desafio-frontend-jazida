@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const CardStyle = styled.div`
   border: 1px solid #d0d7de;
@@ -8,6 +9,10 @@ const CardStyle = styled.div`
 
 const Card = ({ children }) => {
   return <CardStyle>{children}</CardStyle>;
+};
+
+Card.propTypes = {
+  children: PropTypes.node,
 };
 
 export default Card;

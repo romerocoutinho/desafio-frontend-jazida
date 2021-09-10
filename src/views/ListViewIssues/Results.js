@@ -1,77 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import useIsMountedRef from "../../hooks/useIsMountedRef";
-import axios from "axios";
 import ReactPaginate from "react-paginate";
 import IssueItem from "./IssueItem";
 import IssuesFilter from "./IssuesFilter";
 import Card from "../../components/Card";
+import PropTypes from "prop-types";
 
-const getTotalPages = (headers) => {
-  if (!headers.link) {
-    return 1;
-  }
-
-  const links = headers.link.split(",");
-  const pageRegex = /&page=(\d+)/gm;
-  const totalQuery = links
-    .filter((lk) => lk.indexOf('rel="last"') !== -1)
-    .toString()
-    .split(";")[0];
-
-  const totalPages = totalQuery.match(pageRegex)[0].split("=")[1];
-
-  return parseInt(totalPages);
-};
-
-const Results = () => {
-  const isMountedRef = useIsMountedRef();
-  const filters = useSelector((state) => state.filter);
-
-  const [issues, setIssues] = useState();
-  const [page, setPage] = useState(0);
-  const [pageCount, setPageCount] = useState();
-  const perPage = 10;
-
-  const handlePageClick = (data) => {
-    let selected = data.selected;
-
-    setPage(selected);
-  };
-
-  const handleZeroPage = () => setPage(0);
-
-  const getIssues = useCallback(
-    async (data) => {
-      const newFilters = { ...filters, labels: filters.labels.join() };
-      const queryString = new URLSearchParams(newFilters).toString();
-      const url = `https://api.github.com/repos/reactjs/reactjs.org/issues?${queryString}&page=${
-        page + 1
-      }&per_page=${perPage}`;
-      const method = "GET";
-
-      try {
-        const response = await axios({ method, url, data });
-
-        if (isMountedRef.current) {
-          setIssues(response.data);
-          setPageCount(getTotalPages(response.headers));
-        }
-      } catch (error) {
-        console.log(`Error: ${error}`);
-      }
-    },
-    [isMountedRef, filters, page]
-  );
-
-  useEffect(() => {
-    getIssues();
-  }, [getIssues, filters]);
-
-  if (!issues) {
-    return <p className="no-result">Carregando...</p>;
-  }
-
+const Results = ({
+  issues,
+  pageNumber,
+  pageCount,
+  onClickPage,
+  resetPageNumber,
+}) => {
   return (
     <>
       <Card>
@@ -80,7 +19,7 @@ const Results = () => {
           closedLabel="Fechados"
           tagLabel="Labels"
           orderingLabel="Ordenação"
-          resetPage={handleZeroPage}
+          resetPage={resetPageNumber}
         />
         {issues.length ? (
           issues.map((issue) => <IssueItem key={issue.id} issue={issue} />)
@@ -91,7 +30,7 @@ const Results = () => {
 
       {!!(issues.length && pageCount > 1) && (
         <ReactPaginate
-          forcePage={page}
+          forcePage={pageNumber}
           previousLabel={"previous"}
           nextLabel={"next"}
           breakLabel={"..."}
@@ -99,13 +38,21 @@ const Results = () => {
           pageCount={pageCount}
           marginPagesDisplayed={2}
           pageRangeDisplayed={2}
-          onPageChange={handlePageClick}
+          onPageChange={onClickPage}
           containerClassName={"pagination"}
           activeClassName={"active"}
         />
       )}
     </>
   );
+};
+
+Results.propTypes = {
+  issues: PropTypes.array.isRequired,
+  pageNumber: PropTypes.number.isRequired,
+  pageCount: PropTypes.number,
+  onClickPage: PropTypes.func.isRequired,
+  resetPageNumber: PropTypes.func.isRequired,
 };
 
 export default Results;
